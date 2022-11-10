@@ -1,3 +1,5 @@
+const { ipcRenderer } = require("electron");
+
 // DOM nodes
 let showModal = document.getElementById('show-modal'),
 	closeModal = document.getElementById('close-modal'),
@@ -20,7 +22,10 @@ closeModal.addEventListener('click', (e) => {
 addItem.addEventListener('click', (e) => {
 	// check if url exists
 	if (itemUrl.value) {
-		console.log(itemUrl.value);
+    // Send new item url to main process
+    ipcRenderer.send('new-item', itemUrl.value);
+
+    // clean input field and close modal
 		itemUrl.value = '';
 		closeModal.click();
 	}
