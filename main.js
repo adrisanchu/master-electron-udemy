@@ -10,7 +10,10 @@ let mainWindow
 ipcMain.on('new-item', (e, itemUrl) => {
 
   // Get new item and send back to renderer
-  e.sender.send('new-item-success', 'New item from main process');
+  setTimeout(() => {
+    e.sender.send('new-item-success', 'New item from main process');    
+  }, 2000);
+
 });
 
 // Create a new BrowserWindow when `app` is ready
