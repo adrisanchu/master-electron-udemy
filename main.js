@@ -8,7 +8,9 @@ let mainWindow
 
 // Listen for new item request
 ipcMain.on('new-item', (e, itemUrl) => {
-  console.log(itemUrl);
+
+  // Get new item and send back to renderer
+  e.sender.send('new-item-success', 'New item from main process');
 });
 
 // Create a new BrowserWindow when `app` is ready
