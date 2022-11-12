@@ -7,20 +7,31 @@ let showModal = document.getElementById('show-modal'),
 	modal = document.getElementById('modal'),
 	addItem = document.getElementById('add-item'),
 	itemUrl = document.getElementById('url');
+search = document.getElementById('search');
+
+// Filter items with "search"
+search.addEventListener('keyup', (e) => {
+	// Loop items
+	Array.from(document.getElementsByClassName('read-item')).forEach((item) => {
+		// Hide items that don't match search value
+		let hasMatch = item.innerText.toLowerCase().includes(search.value);
+		item.style.display = hasMatch ? 'flex' : 'none';
+	});
+});
 
 // Disable & Enable modal buttons
 const toggleModalButtons = () => {
 	// Check state of buttons
 	if (addItem.disabled === true) {
-    addItem.disabled = false;
+		addItem.disabled = false;
 		addItem.style.opacity = 1;
 		addItem.innerText = 'Add Item';
-    closeModal.style.display = 'inline';
+		closeModal.style.display = 'inline';
 	} else {
 		addItem.disabled = true;
 		addItem.style.opacity = 0.5;
 		addItem.innerText = 'Adding...';
-    closeModal.style.display = 'none';
+		closeModal.style.display = 'none';
 	}
 };
 
@@ -42,23 +53,22 @@ addItem.addEventListener('click', (e) => {
 		// Send new item url to main process
 		ipcRenderer.send('new-item', itemUrl.value);
 
-    // Disable buttons...
-    toggleModalButtons();
+		// Disable buttons...
+		toggleModalButtons();
 	}
 });
 
 // Listen for new item from main process
 ipcRenderer.on('new-item-success', (e, newItem) => {
-	
 	// Add new item to "items" node
 	items.addItem(newItem, true);
 
-  // Enable buttons
-  toggleModalButtons();
+	// Enable buttons
+	toggleModalButtons();
 
-  // clean input field and close modal
-  itemUrl.value = '';
-  closeModal.click();
+	// clean input field and close modal
+	itemUrl.value = '';
+	closeModal.click();
 });
 
 // Listen for keyboard submit
