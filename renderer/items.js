@@ -35,6 +35,20 @@ exports.changeSelection = (direction) => {
 	}
 };
 
+// Open selected item
+exports.open = () => {
+	// Only if we have items (in case of menu open)
+	if (!this.storage.length) return
+
+	// Get selected item
+	let selectedItem = document.getElementsByClassName('read-item selected')[0];
+
+	// Get item's url
+	let contentURL = selectedItem.dataset.url;
+
+	console.log('opening...', contentURL);
+}
+
 // Add new item
 exports.addItem = (item, isNew = false) => {
 	// Create a new DOM node
@@ -42,6 +56,9 @@ exports.addItem = (item, isNew = false) => {
 
 	// Assign "read-item" class
 	itemNode.setAttribute('class', 'read-item');
+
+	// Set item url as data attribute
+	itemNode.setAttribute('data-url', item.url);
 
 	// Add inner HTML
 	itemNode.innerHTML = `<img src="${item.screenshot}"><h2>${item.title}</h2>`;
@@ -51,6 +68,9 @@ exports.addItem = (item, isNew = false) => {
 
 	// Attach click handler to select
 	itemNode.addEventListener('click', this.select);
+
+	// Attach doubleClick handler to open
+	itemNode.addEventListener('dblclick', this.open);
 
 	// If this is the first item, set it as selected
 	if (document.getElementsByClassName('read-item').length === 1) {

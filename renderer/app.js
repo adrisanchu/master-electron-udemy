@@ -23,6 +23,8 @@ search.addEventListener('keyup', (e) => {
 document.addEventListener('keydown', (e) => {
 	if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
 		items.changeSelection(e.key);
+	} else if (e.key === 'Enter') {
+		items.open();
 	}
 });
 
