@@ -13,11 +13,27 @@ exports.save = () => {
 // Set item as selected
 exports.select = (e) => {
 	// Remove currently selected item class
-	document.getElementsByClassName('read-item selected')[0].classList.remove('selected')
+	document.getElementsByClassName('read-item selected')[0].classList.remove('selected');
 
 	// Add to clicked item
-	e.currentTarget.classList.add('selected')
-}
+	e.currentTarget.classList.add('selected');
+};
+
+// Move to newly selected item
+exports.changeSelection = (direction) => {
+	// Get current item by searching the only item with "selected" class
+	let currentItem = document.getElementsByClassName('read-item selected')[0];
+
+	// Handle up/down
+	// Important: You can only move up if there is a previous element!
+	if (direction === 'ArrowUp' && currentItem.previousElementSibling) {
+		currentItem.classList.remove('selected');
+		currentItem.previousElementSibling.classList.add('selected');
+	} else if (direction === 'ArrowDown' && currentItem.nextElementSibling) {
+		currentItem.classList.remove('selected');
+		currentItem.nextElementSibling.classList.add('selected');
+	}
+};
 
 // Add new item
 exports.addItem = (item, isNew = false) => {
