@@ -10,6 +10,15 @@ exports.save = () => {
 	localStorage.setItem('readit-items', JSON.stringify(this.storage));
 };
 
+// Set item as selected
+exports.select = (e) => {
+	// Remove currently selected item class
+	document.getElementsByClassName('read-item selected')[0].classList.remove('selected')
+
+	// Add to clicked item
+	e.currentTarget.classList.add('selected')
+}
+
 // Add new item
 exports.addItem = (item, isNew = false) => {
 	// Create a new DOM node
@@ -23,6 +32,14 @@ exports.addItem = (item, isNew = false) => {
 
 	// Append new node to "items"
 	items.appendChild(itemNode);
+
+	// Attach click handler to select
+	itemNode.addEventListener('click', this.select);
+
+	// If this is the first item, set it as selected
+	if (document.getElementsByClassName('read-item').length === 1) {
+		itemNode.classList.add('selected');
+	}
 
 	// Add item to storage and persist it, only if it is new!
 	// Otherwise, just add it to the DOM
