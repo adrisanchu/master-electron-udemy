@@ -46,7 +46,16 @@ exports.open = () => {
 	// Get item's url
 	let contentURL = selectedItem.dataset.url;
 
-	console.log('opening...', contentURL);
+	// Open item in proxy BrowserWindow
+	let readerWin = window.open(contentURL, '', `
+		maxWidth=2000,
+		maxHeight=2000,
+		width=1200,
+		height=800,
+		backgroundColor=#DEDEDE,
+		nodeIntegration=0,
+		contextIsolation=1
+	`);
 }
 
 // Add new item
