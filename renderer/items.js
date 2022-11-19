@@ -1,5 +1,14 @@
+const fs = require('fs');
+
 // DOM nodes
 let items = document.getElementById('items');
+
+// Get readerJS content
+let readerJS;
+fs.readFile(`${__dirname}/reader.js`, (err, data) => {
+	// assign buffer data returned from fs to readerJS, as string
+	readerJS = data.toString();
+});
 
 // Track items in storage
 // if localStorage is not declared yet, set as an empty array
@@ -56,6 +65,9 @@ exports.open = () => {
 		nodeIntegration=0,
 		contextIsolation=1
 	`);
+
+	// Inject JS into the new BrowserWindow
+	readerWin.eval(readerJS);
 }
 
 // Add new item
