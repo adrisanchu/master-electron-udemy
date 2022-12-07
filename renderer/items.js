@@ -18,6 +18,15 @@ exports.storage = JSON.parse(localStorage.getItem('readit-items')) || [];
 // Listen to "done" message from reader window
 window.addEventListener('message', (e) => {
 	console.log(e.data);
+
+	// Check for correct action
+	if (e.data.action === 'delete-reader-item') {
+		// TODO: Delete item at given index
+		// this.delete(e.data.itemIndex);
+
+		// Close the reader window (remote)
+		e.source.close();
+	}
 });
 
 // Get selected item index
@@ -43,7 +52,7 @@ exports.save = () => {
 // Set item as selected
 exports.select = (e) => {
 	// Remove currently selected item class
-	document.getElementsByClassName('read-item selected')[0].classList.remove('selected');
+	this.getSelectedItem().node.classList.remove('selected');
 
 	// Add to clicked item
 	e.currentTarget.classList.add('selected');
@@ -52,16 +61,16 @@ exports.select = (e) => {
 // Move to newly selected item
 exports.changeSelection = (direction) => {
 	// Get current item by searching the only item with "selected" class
-	let currentItem = document.getElementsByClassName('read-item selected')[0];
+	let currentItem = this.getSelectedItem();
 
 	// Handle up/down
 	// Important: You can only move up if there is a previous element!
 	if (direction === 'ArrowUp' && currentItem.previousElementSibling) {
-		currentItem.classList.remove('selected');
-		currentItem.previousElementSibling.classList.add('selected');
+		currentItem.node.classList.remove('selected');
+		currentItem.node.previousElementSibling.classList.add('selected');
 	} else if (direction === 'ArrowDown' && currentItem.nextElementSibling) {
-		currentItem.classList.remove('selected');
-		currentItem.nextElementSibling.classList.add('selected');
+		currentItem.node.classList.remove('selected');
+		currentItem.node.nextElementSibling.classList.add('selected');
 	}
 };
 
@@ -71,10 +80,10 @@ exports.open = () => {
 	if (!this.storage.length) return
 
 	// Get selected item
-	let selectedItem = document.getElementsByClassName('read-item selected')[0];
+	let selectedItem = this.getSelectedItem();
 
 	// Get item's url
-	let contentURL = selectedItem.dataset.url;
+	let contentURL = selectedItem.node.dataset.url;
 
 	// Open item in proxy BrowserWindow
 	let readerWin = window.open(contentURL, '', `
@@ -87,8 +96,9 @@ exports.open = () => {
 		contextIsolation=1
 	`);
 
-	// Inject JS into the new BrowserWindow
-	readerWin.eval(readerJS);
+	// Inject JS into the new BrowserWindow, with specific item index
+	// (selectedItem.index)
+	readerWin.eval(readerJS.replace('{{index}}', selectedItem.index));
 }
 
 // Add new item

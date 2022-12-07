@@ -25,8 +25,16 @@ readitClose.style.zIndex = '9999';
 readitClose.onclick = (e) => {
 	// make a reference to the parent component (the main app)
 	// by using window.opener() along with the postMessage API
-  // we have to listen to this event from the main component
-	window.opener.postMessage('item-done', '*');
+	// we have to listen to this event from the main component
+	window.opener.postMessage(
+		{
+			action: 'delete-reader-item',
+			// since we don't know the index of the current item, 
+			// we will add it later from the main thread
+			itemIndex: '{{index}}',
+		},
+		'*'
+	);
 };
 
 // Append button to body
