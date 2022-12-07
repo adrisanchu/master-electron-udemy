@@ -14,6 +14,27 @@ fs.readFile(`${__dirname}/reader.js`, (err, data) => {
 // if localStorage is not declared yet, set as an empty array
 exports.storage = JSON.parse(localStorage.getItem('readit-items')) || [];
 
+
+// Listen to "done" message from reader window
+window.addEventListener('message', (e) => {
+	console.log(e.data);
+});
+
+// Get selected item index
+exports.getSelectedItem = () => {
+
+	// Get selected node
+	let currentItem = document.getElementsByClassName('read-item selected')[0];
+
+	// Get item index
+	let itemIndex = 0;
+	let child = currentItem;
+	while( (child = child.previousElementSibling) != null ) itemIndex++;
+
+	// Return both item and its index
+	return { node: currentItem, index: itemIndex };
+};
+
 // Persist storage
 exports.save = () => {
 	localStorage.setItem('readit-items', JSON.stringify(this.storage));
