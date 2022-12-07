@@ -22,12 +22,36 @@ window.addEventListener('message', (e) => {
 	// Check for correct action
 	if (e.data.action === 'delete-reader-item') {
 		// TODO: Delete item at given index
-		// this.delete(e.data.itemIndex);
+		this.delete(e.data.itemIndex);
 
 		// Close the reader window (remote)
 		e.source.close();
 	}
 });
+
+// Delete item
+exports.delete = itemIndex => {
+
+	// Remove item from DOM
+	items.removeChild(items.childNodes[itemIndex])
+
+	// Remove item from localStorage
+	// By cutting the array 1item starting from our given item
+	this.storage.splice(itemIndex, 1);
+
+	// Persist new localStorage
+	this.save();
+
+	// Select previous or the new first item in the list
+	if (this.storage.length) {
+
+		// Get new selected item index
+		let = newSelectedItemIndex = (itemIndex === 0) ? 0 : itemIndex - 1;
+
+		// Select item at new index
+		document.getElementsByClassName('read-items')[newSelectedItemIndex].classList.add('selected');
+	};
+};
 
 // Get selected item index
 exports.getSelectedItem = () => {
