@@ -10,7 +10,7 @@ readitClose.style.padding = '5px 10px';
 
 // absolute size is better, since we're adding this button into an unknown environment
 // otherwise, the button will inherit the font size from the site
-readitClose.style.fontSize = '20px';
+readitClose.style.fontSize = '18px';
 readitClose.style.fontWeight = 'bold';
 readitClose.style.background = 'dodgerblue';
 readitClose.style.color = 'white';
@@ -38,4 +38,7 @@ readitClose.onclick = (e) => {
 };
 
 // Append button to body
-document.getElementsByTagName('body')[0].append(readitClose);
+// by listening to an event from main.js
+document.addEventListener("DOMContentLoaded", function(event) {
+	document.getElementsByTagName('body')[0].append(readitClose);
+});

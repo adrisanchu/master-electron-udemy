@@ -51,6 +51,18 @@ function createWindow () {
   // Open DevTools - Remove for PRODUCTION!
   mainWindow.webContents.openDevTools();
 
+  // Handle open new windows inside this windowBrowser
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    return {
+      action: 'allow',
+      overrideBrowserWindowOptions: {
+        webPreferences: {
+          preload: `${__dirname}/renderer/reader.js`
+        }
+      }
+    }
+});
+
   // Listen for window being closed
   mainWindow.on('closed',  () => {
     mainWindow = null
