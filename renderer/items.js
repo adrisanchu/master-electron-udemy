@@ -89,10 +89,10 @@ exports.changeSelection = (direction) => {
 
 	// Handle up/down
 	// Important: You can only move up if there is a previous element!
-	if (direction === 'ArrowUp' && currentItem.previousElementSibling) {
+	if (direction === 'ArrowUp' && currentItem.node.previousElementSibling) {
 		currentItem.node.classList.remove('selected');
 		currentItem.node.previousElementSibling.classList.add('selected');
-	} else if (direction === 'ArrowDown' && currentItem.nextElementSibling) {
+	} else if (direction === 'ArrowDown' && currentItem.node.nextElementSibling) {
 		currentItem.node.classList.remove('selected');
 		currentItem.node.nextElementSibling.classList.add('selected');
 	}

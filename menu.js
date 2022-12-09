@@ -1,12 +1,41 @@
 const { Menu, shell } = require('electron');
 
 // Module function to create main app menu
-module.exports = () => {
+module.exports = (appWin) => {
 	// Menu temlate
 	let template = [
 		{
 			label: 'Items',
-			submenu: [],
+			submenu: [
+				{
+					label: 'Add New',
+					accelerator: 'CmdOrCtrl+O',
+					click: () => {
+						appWin.send('menu-show-modal');
+					},
+				},
+				{
+					label: 'Read Item',
+					accelerator: 'CmdOrCtrl+Enter',
+					click: () => {
+						appWin.send('menu-open-item');
+					},
+				},
+        {
+					label: 'Delete Item',
+					accelerator: 'CmdOrCtrl+Backspace',
+					click: () => {
+						appWin.send('menu-delete-item');
+					},
+				},
+        {
+					label: 'Open in Browser',
+					accelerator: 'CmdOrCtrl+Shift+Enter',
+					click: () => {
+						appWin.send('menu-open-item-native');
+					},
+				},
+			],
 		},
 		{
 			role: 'editMenu',

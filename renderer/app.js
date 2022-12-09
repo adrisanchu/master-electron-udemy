@@ -9,6 +9,25 @@ let showModal = document.getElementById('show-modal'),
 	itemUrl = document.getElementById('url');
 search = document.getElementById('search');
 
+// Open modal from main menu
+ipcRenderer.on('menu-show-modal', () => {
+	showModal.click();
+});
+
+// Open selected item from main menu
+ipcRenderer.on('menu-open-item', () => {
+	items.open();
+});
+
+// Delete selected item from main menu
+ipcRenderer.on('menu-delete-item', () => {
+	let selectedItem = items.getSelectedItem();
+	items.delete(selectedItem.index);
+});
+
+// TODO: Open item in native browser from menu
+// ipcRenderer.on('menu-open-item-native')
+
 // Filter items with "search"
 search.addEventListener('keyup', (e) => {
 	// Loop items
@@ -23,8 +42,6 @@ search.addEventListener('keyup', (e) => {
 document.addEventListener('keydown', (e) => {
 	if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
 		items.changeSelection(e.key);
-	} else if (e.key === 'Enter') {
-		items.open();
 	}
 });
 

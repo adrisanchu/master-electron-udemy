@@ -40,7 +40,7 @@ function createWindow () {
   })
 
   // Create main app menu
-  appMenu();
+  appMenu(mainWindow.webContents);
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('renderer/main.html')
