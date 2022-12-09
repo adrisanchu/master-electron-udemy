@@ -3,13 +3,6 @@ const fs = require('fs');
 // DOM nodes
 let items = document.getElementById('items');
 
-// Get readerJS content
-let readerJS;
-fs.readFile(`${__dirname}/reader.js`, (err, data) => {
-	// assign buffer data returned from fs to readerJS, as string
-	readerJS = data.toString();
-});
-
 // Track items in storage
 // if localStorage is not declared yet, set as an empty array
 exports.storage = JSON.parse(localStorage.getItem('readit-items')) || [];
@@ -77,7 +70,7 @@ exports.open = () => {
 	let contentURL = selectedItem.dataset.url;
 
 	// Open item in proxy BrowserWindow
-	let readerWin = window.open(contentURL, '', `
+	window.open(contentURL, '', `
 		maxWidth=2000,
 		maxHeight=2000,
 		width=1200,
@@ -86,9 +79,6 @@ exports.open = () => {
 		nodeIntegration=0,
 		contextIsolation=1
 	`);
-
-	// Inject JS into the new BrowserWindow
-	readerWin.eval(readerJS);
 }
 
 // Add new item
