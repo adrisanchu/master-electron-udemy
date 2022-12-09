@@ -21,8 +21,7 @@ ipcRenderer.on('menu-open-item', () => {
 
 // Delete selected item from main menu
 ipcRenderer.on('menu-delete-item', () => {
-	let selectedItem = items.getSelectedItem();
-	items.delete(selectedItem.index);
+	items.delete();
 });
 
 // TODO: Open item in native browser from menu

@@ -7,15 +7,12 @@ let items = document.getElementById('items');
 // if localStorage is not declared yet, set as an empty array
 exports.storage = JSON.parse(localStorage.getItem('readit-items')) || [];
 
-
 // Listen to "done" message from reader window
 window.addEventListener('message', (e) => {
-	console.log(e.data);
-
 	// Check for correct action
 	if (e.data.action === 'delete-reader-item') {
-		// TODO: Delete item at given index
-		this.delete(e.data.itemIndex);
+		// Delete the selected item
+		this.delete();
 
 		// Close the reader window (remote)
 		e.source.close();
@@ -23,14 +20,15 @@ window.addEventListener('message', (e) => {
 });
 
 // Delete item
-exports.delete = itemIndex => {
+exports.delete = () => {
+	let itemToDelete = this.getSelectedItem();
 
 	// Remove item from DOM
-	items.removeChild(items.childNodes[itemIndex])
+	items.removeChild(itemToDelete.node);
 
 	// Remove item from localStorage
 	// By cutting the array 1item starting from our given item
-	this.storage.splice(itemIndex, 1);
+	this.storage.splice(itemToDelete.index, 1);
 
 	// Persist new localStorage
 	this.save();
@@ -39,10 +37,11 @@ exports.delete = itemIndex => {
 	if (this.storage.length) {
 
 		// Get new selected item index
-		let = newSelectedItemIndex = (itemIndex === 0) ? 0 : itemIndex - 1;
+		let newSelectedItemIndex = (itemToDelete.index === 0) ? 0 : itemToDelete.index - 1;
 
 		// Select item at new index
-		document.getElementsByClassName('read-items')[newSelectedItemIndex].classList.add('selected');
+		// console.log('list of items', document.getElementsByClassName('read-item'));
+		document.getElementsByClassName('read-item')[newSelectedItemIndex].classList.add('selected');
 	};
 };
 

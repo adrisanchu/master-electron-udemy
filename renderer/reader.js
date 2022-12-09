@@ -26,19 +26,11 @@ readitClose.onclick = (e) => {
 	// make a reference to the parent component (the main app)
 	// by using window.opener() along with the postMessage API
 	// we have to listen to this event from the main component
-	window.opener.postMessage(
-		{
-			action: 'delete-reader-item',
-			// since we don't know the index of the current item, 
-			// we will add it later from the main thread
-			itemIndex: '{{index}}',
-		},
-		'*'
-	);
+	window.opener.postMessage({ action: 'delete-reader-item' }, '*');
 };
 
 // Append button to body
 // by listening to an event from main.js
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener('DOMContentLoaded', function (event) {
 	document.getElementsByTagName('body')[0].append(readitClose);
 });
